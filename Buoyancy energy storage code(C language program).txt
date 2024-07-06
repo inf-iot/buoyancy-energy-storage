@@ -1,0 +1,106 @@
+#include <stdio.h> 
+
+#define pi 3.14f 
+
+//Dimensions in meters 
+static float R = 200;	// 	radius 
+static float H = 200;	// 	height
+	//static float T = 0.8f;	// 	Thickness (decimal) (double slash before//indicates not using the value in that row) 
+static float T = 1;		// 	Thickness (integer) (double slash before//indicates not using the value of that line) 
+static float P = 0.16f;	// 	The percentage of filled soil to height H 
+
+//Concrete volume 
+static float V_hnt (void) 
+{ 
+	return ((pi*R*R*H) - (pi*(R-T)*(R-T)*(H-T))); 
+} 
+
+//Concrete quality
+static float M_hnt (void) 
+{ 	
+	return  (V_hnt()*2.5f); 
+} 
+
+//Cost 
+static float Cost_hnt (void) 
+{ 
+	return (V_hnt()*1000); 
+} 
+
+//Soil filling quality (ballast stone)
+static float M_tc (void) 
+{ 
+	return ((pi*(R-T)*(R-T)*(H*P))*2.5f); 
+} 
+
+//Total mass 
+static float M (void) 
+{ 	
+return (M_hnt() + M_tc()); 
+} 
+
+//Draft depth 
+static float Hcs (void) 
+{
+	return (M()/(pi*R*R*1)); 
+} 
+
+//Internal and external water pressure difference (head) 
+static float Hst (void) 
+{ 
+	return (Hcs() - H*P); 
+} 
+
+//Sports height 
+static float Hy (void) 
+{ 
+	return (H - Hcs()); 
+} 
+
+//Energy 
+static float PE  (void)
+{ 	
+	return ((M()*1000*9.8f*Hy())/3600000*0.6f*0.6f); 
+} 
+
+//Unit cost 
+static float Unit_cost (void) 
+{ 
+	return (Cost_hnt()/PE()); 
+} 
+
+int main() 
+{ 
+   	printf("*******************************************************\r\n");
+	Printf ("Float radius:%. 2f meters \ r \ n", R); 
+	Printf ("Float height:%. 2f meters \ r \ n", H); 
+	Printf ("Float thickness:%. 2f meters \ r \ n", T);
+	Printf ("Fill percentage:%. 2f \ r \ n", P); 
+	printf("\r\n"); 
+	Printf ("Concrete volume:%. 2f cubic meters", V_hnt());
+	Printf ("% 2000 cubic meters) \ r \ n", V_hnt()/10000); 
+	Printf ("Concrete mass:%. 2f tons", Mnnt()); 
+	Printf ("% 2000 tons) \ r \ n", Mnnt()/10000); 
+	printf("\r\n");
+	Printf ("Concrete cost:%. 2f yuan", Cost_hnt()); 
+	Printf (% 20000 yuan), Cost_hnt()/10000 yuan); 
+	Printf ("% 2f billion yuan) \ r \ n", Cost_hnt()/10000/10000); 
+	printf("\r\n");
+	Printf ("Fill soil height:%. 2f meters \ r \ n", H * P); 
+	Printf ("Mass of filled soil:%. 2f tons", Mttc()); 
+	Printf ("% 2000 tons) \ r \ n", Mttc()/10000); 
+	printf("\r\n");
+	Printf ("Total mass:%. 2f tons", M()); 
+	Printf ("%. 2 million tons) \ r \ n", M()/10000); 
+	printf("\r\n"); 
+	Printf ("Draft:%. 2f meters \ r \ n", Hcs());
+	Printf ("Internal and external water pressure difference:%. 2f meters \ r \ n", Hst()); 
+	printf("\r\n"); 
+	Printf ("Power generation:%. 2f kWh", PE()); 
+	Printf ("(% 2f degrees) \ r \ n", PE()/10000); 
+	printf("\r\n");
+	Printf ("Investment cost per kilowatt hour:%. 2f yuan \ r \ n", Unit_cost()); 
+   printf("********	******************************************	*****\r\n"); 
+
+   return 0; 
+} 
